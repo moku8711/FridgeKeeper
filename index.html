@@ -683,7 +683,8 @@ function launchAlert(force){
   const t = toStr(today0());
   if(!force && localStorage.getItem(P+'lastAlert') === t) return;
   const list = items.map(i => ({i, n: dday(i.expiry)}))
-    .filter(x => x.n < 0 || S.alertDays.includes(x.n)).sort((a,b) => a.n - b.n);
+    // 웹은 매일 못 깨어나므로 '정확히 그날'이 아니라 '가장 긴 알림 기간 안에 든 것' 전부 표시
+    .filter(x => x.n < 0 || (S.alertDays.length && x.n <= Math.max(...S.alertDays))).sort((a,b) => a.n - b.n);
   localStorage.setItem(P+'lastAlert', t);
   if(!list.length){ if(force) toast('오늘 알릴 식품이 없어요'); return; }
   const txt = list.slice(0,6).map(x => `${x.i.name} (${x.n<0?'기한 지남':x.n===0?'오늘까지':x.n+'일 남음'})`).join('\n')

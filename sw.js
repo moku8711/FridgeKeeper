@@ -1,5 +1,5 @@
 // 오프라인 실행용 캐시. index.html 수정 후엔 VERSION 숫자를 올려야 폰에 새 버전이 반영됨
-const VERSION = 'fridge-keeper-v4';
+const VERSION = 'fridge-keeper-v5';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
