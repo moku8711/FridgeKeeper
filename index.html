@@ -17,7 +17,7 @@
   --bg:#ECEFF1; --card:#fff; --text:#263238; --sub:#607D8B; --muted:#90A4AE;
   --blue:#1E88E5; --indigo:#3949AB; --line:#CFD8DC; --soft:#E3E8EC;
   --door:#4A4E54; --cab:#1C1E21;
-  --W:340px; --H:640px; --LW:150px; --RW:187px; --GAP:3px;
+  --W:270px; --H:560px; --LW:120px; --RW:147px; --GAP:3px; --SW:90px;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
@@ -38,13 +38,29 @@ header h1{margin:0;font-size:22px;font-weight:800}
 #stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 #fridge{position:relative;width:var(--W);height:var(--H);perspective:1100px}
 .cabinet{position:absolute;inset:0;background:var(--cab);border-radius:14px}
-.floor{height:10px;margin-top:4px;border-radius:10px;background:rgba(0,0,0,.12);width:calc(var(--W)*.9)}
+.floor{height:10px;margin-top:4px;border-radius:10px;background:rgba(0,0,0,.12);width:calc((var(--W) + var(--SW) + 8px)*.95)}
+#kitchen{display:flex;align-items:flex-end;gap:8px}
+/* 실온 선반 (문 없는 오픈 랙) */
+#shelf{position:relative;flex:none;width:var(--SW);min-width:70px;height:var(--H);border-radius:6px;cursor:pointer;
+  background:linear-gradient(90deg,#B07A4A,#C99563 30%,#C08A57);padding:6px 6px 0;display:flex;flex-direction:column;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+#shelf .tit{color:#fff;font-size:11px;font-weight:800;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.4);height:16px}
+#shelf .bay{flex:1;position:relative;background:#F3E6D4;margin-bottom:6px;border-radius:2px;
+  box-shadow:inset 0 6px 8px -6px rgba(0,0,0,.35);display:flex;flex-wrap:wrap-reverse;align-content:flex-start;
+  justify-content:center;gap:3px;padding:3px 2px 7px;overflow:hidden}
+#shelf .bay::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:#A86F3F;border-radius:0 0 2px 2px}
+.slot{width:calc((var(--SW) - 22px)/2);display:flex;flex-direction:column;align-items:center}
+.slot .ph{width:100%;aspect-ratio:1;border-radius:6px;border:2px solid #43A047;background:#fff;object-fit:cover;
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:#5D4037;overflow:hidden}
+.slot .dd{font-size:9px;font-weight:800;margin-top:1px;color:#5D4037}
+.slot.more .ph{border-color:#8D6E63;color:#8D6E63;background:#FBF6EF}
+#shelf .empty{color:#A1887F;font-size:10px;text-align:center;align-self:center;width:100%}
 
 .interior{position:absolute;top:0;height:var(--H);padding:6px;display:flex;flex-direction:column;overflow:hidden;
   pointer-events:none;opacity:0;transition:opacity .25s .1s}
 .interior.show{pointer-events:auto;opacity:1}
-.interior.freezer{left:0;width:var(--LW);background:#E6F1FA;border-radius:12px 0 0 12px;padding-left:calc(var(--LW)*.24 + 4px)}
-.interior.fridge{left:calc(var(--LW) + var(--GAP));width:var(--RW);background:#F4F7F9;border-radius:0 12px 12px 0;padding-right:calc(var(--RW)*.24 + 4px)}
+.interior.freezer{left:0;width:var(--LW);background:#E6F1FA;border-radius:12px 0 0 12px;padding-left:calc(var(--LW)*.2 + 2px)}
+.interior.fridge{left:calc(var(--LW) + var(--GAP));width:var(--RW);background:#F4F7F9;border-radius:0 12px 12px 0;padding-right:calc(var(--RW)*.2 + 2px)}
 .interior::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:#fff;box-shadow:0 0 14px 4px rgba(255,255,255,.9)}
 .ihead{display:flex;justify-content:space-between;align-items:center;padding:6px 0}
 .ihead b{font-size:13px} .ihead b span{color:var(--blue)}
@@ -53,11 +69,11 @@ header h1{margin:0;font-size:22px;font-weight:800}
 .ilist .empty{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
 .icard{display:flex;align-items:center;background:#fff;border-radius:8px;padding:5px;margin-bottom:5px;
   box-shadow:0 1px 2px rgba(0,0,0,.08);width:100%;text-align:left}
-.thumb{width:30px;height:30px;border-radius:6px;flex:none;object-fit:cover;background:#CFD8DC;
+.thumb{width:26px;height:26px;border-radius:6px;flex:none;object-fit:cover;background:#CFD8DC;
   display:flex;align-items:center;justify-content:center;font-weight:700;color:#455A64}
 .icard .t{flex:1;min-width:0;margin-left:6px}
 .icard .n{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{display:inline-block;border-radius:4px;padding:1px 5px;font-size:10px;font-weight:800;margin-top:2px}
+.badge{display:inline-block;white-space:nowrap;border-radius:4px;padding:1px 5px;font-size:10px;font-weight:800;margin-top:2px}
 .iadd{background:var(--blue);color:#fff;font-weight:700;font-size:13px;border-radius:8px;padding:8px 0;margin-top:4px}
 
 .door{position:absolute;top:0;height:var(--H);overflow:hidden;background:var(--door);
@@ -87,7 +103,7 @@ header h1{margin:0;font-size:22px;font-weight:800}
 
 /* ── 하단 ── */
 footer{position:relative;z-index:5;background:var(--bg);display:flex;gap:10px;padding:8px 16px calc(12px + env(safe-area-inset-bottom))}
-footer button{flex:1;color:#fff;font-weight:800;font-size:15px;border-radius:12px;padding:14px 0}
+footer button{flex:1;color:#fff;font-weight:800;font-size:14px;border-radius:12px;padding:14px 0}
 
 /* ── 시트(전체화면 창) ── */
 .sheet{position:fixed;inset:0;background:#F5F7FA;display:flex;flex-direction:column;z-index:20;
@@ -150,17 +166,21 @@ input[type=file]{display:none}
       <div id="summary"></div>
     </div>
     <div class="hbtns">
-      <button class="hbtn" onclick="openList()">목록</button>
+      <button class="hbtn" onclick="openList('all')">목록</button>
       <button class="hbtn" onclick="openSettings()">설정</button>
     </div>
   </header>
   <main id="stage">
-    <div id="fridge"></div>
+    <div id="kitchen">
+      <div id="fridge"></div>
+      <div id="shelf" onclick="openList('pantry')"></div>
+    </div>
     <div class="floor"></div>
   </main>
   <footer>
-    <button style="background:var(--blue)" onclick="openEditor(null,'fridge')">＋ 냉장실에 넣기</button>
-    <button style="background:var(--indigo)" onclick="openEditor(null,'freezer')">＋ 냉동실에 넣기</button>
+    <button style="background:var(--blue)" onclick="openEditor(null,'fridge')">＋ 냉장</button>
+    <button style="background:var(--indigo)" onclick="openEditor(null,'freezer')">＋ 냉동</button>
+    <button style="background:#A86F3F" onclick="openEditor(null,'pantry')">＋ 실온</button>
   </footer>
 </div>
 
@@ -184,7 +204,7 @@ input[type=file]{display:none}
 
     <div class="label">보관 위치</div>
     <div class="seg" id="edComp">
-      <button data-v="fridge">냉장실</button><button data-v="freezer">냉동실</button>
+      <button data-v="fridge">냉장실</button><button data-v="freezer">냉동실</button><button data-v="pantry">실온</button>
     </div>
 
     <div class="label">구매일 <button class="chip" style="margin:0;padding:3px 10px;font-size:12px" onclick="setBuyToday()">오늘</button></div>
@@ -218,15 +238,22 @@ input[type=file]{display:none}
 <div class="sheet" id="list">
   <div class="top"><b id="listTitle">전체 목록</b><button onclick="closeSheet('list')">닫기</button></div>
   <div style="padding:12px 16px 0"><div class="seg" id="listFilter">
-    <button data-v="all" class="on">전체</button><button data-v="fridge">냉장실</button><button data-v="freezer">냉동실</button>
+    <button data-v="all" class="on">전체</button><button data-v="fridge">냉장</button><button data-v="freezer">냉동</button><button data-v="pantry">실온</button>
   </div></div>
   <div class="body" id="listBody"></div>
+  <div style="padding:8px 16px calc(12px + env(safe-area-inset-bottom));background:#F5F7FA">
+    <button class="iadd" style="width:100%;padding:13px 0;font-size:15px" id="listAdd" onclick="openEditor(null, listFilter==='all'?'fridge':listFilter)">＋ 넣기</button>
+  </div>
 </div>
 
 <!-- 설정 -->
 <div class="sheet" id="settings">
   <div class="top"><b>설정</b><button onclick="closeSheet('settings')">완료</button></div>
   <div class="body">
+    <div class="label">새로 넣을 때 기본 유통기한</div>
+    <div id="stDef"></div>
+    <div class="help">식품마다 입력 화면에서 날짜를 따로 바꿀 수 있어요.</div>
+
     <div class="label">알림 받을 시점</div>
     <div class="chips" id="stDays" style="margin-top:0"></div>
 
@@ -264,6 +291,7 @@ input[type=file]{display:none}
       </div>
       <div class="help">홈 화면의 문 틈이 사진 속 실제 문 틈과 맞도록 조절하세요.</div>
     </div>
+    <div class="help" style="text-align:center;margin-top:30px">냉장고 지킴이 v1.2 (실온 선반)</div>
   </div>
 </div>
 
@@ -300,13 +328,18 @@ const idb = (() => {
     set: (k, v) => tx('readwrite', st => v == null ? st.delete(k) : st.put(v, k)),
   };
 })();
-const LABEL = {fridge:'냉장실', freezer:'냉동실'};
-const DEF = {alertDays:[3,1,0], hour:9, split:0.5, hasFridgePhoto:false};
+const LABEL = {fridge:'냉장실', freezer:'냉동실', pantry:'실온'};
+const DEF = {alertDays:[3,1,0], hour:9, split:0.5, hasFridgePhoto:false,
+             defExp:{fridge:'d7', freezer:'m1', pantry:'m3'}};   // 위치별 기본 유통기한
+/* 기간 코드 → 날짜 */
+const PERIODS = [['d3','3일'],['d7','7일'],['d14','14일'],['m1','1달'],['m2','2달'],['m3','3달'],['m6','6달'],['y1','1년']];
+function fromCode(c){ const n=+c.slice(1); return c[0]==='d' ? addDays(n) : c[0]==='m' ? addMonths(n) : addMonths(12*n); }
 
 let items = [];
 let S = {...DEF};
 try{ items = JSON.parse(store.get('items')||'[]'); }catch(e){ items=[]; }
 try{ S = {...DEF, ...JSON.parse(store.get('settings')||'{}')}; }catch(e){}
+S.defExp = {...DEF.defExp, ...(S.defExp||{})};
 
 const photoCache = {};
 function photo(id){ if(!(id in photoCache)) photoCache[id] = B ? store.get('ph_'+id) : null; return photoCache[id]; }
@@ -355,8 +388,11 @@ const open = {freezer:false, fridge:false};
 function layout(){
   const st = $('stage');
   const sw = st.clientWidth, sh = st.clientHeight - 24;
-  let W = Math.min(sw - 32, 440), H = Math.min(W*1.95, sh);
-  W = Math.min(W, H/1.6);
+  const total = Math.min(sw - 24, 560);            // 냉장고 + 간격 8 + 선반
+  let W = (total - 8) * 0.75, SW = total - 8 - W;
+  const H = Math.min(W*2.25, sh);
+  if(W > H/1.55){ W = H/1.55; SW = Math.max(78, W/3); }
+  document.documentElement.style.setProperty('--SW', SW+'px');
   const fp = S.hasFridgePhoto ? photo('fridge') : null;
   const split = fp ? S.split : 0.45;     // 기본 그림은 실제 양문형처럼 45:55
   const gap = 3;
@@ -393,6 +429,25 @@ function renderFridge(){
   $('fridge').innerHTML = html.join('');
 }
 
+const BAYS = 4;
+function renderShelf(){
+  const data = byComp('pantry');
+  const cap = BAYS * 4;                       // 칸당 4개(2x2)
+  const shown = data.length > cap ? data.slice(0, cap-1) : data;
+  const more = data.length - shown.length;
+  const bays = Array.from({length:BAYS}, () => []);
+  shown.forEach((it, i) => bays[Math.floor(i/4)].push(it));   // 임박한 것부터 맨 위 칸
+  const slot = it => { const n = dday(it.expiry), [bg] = ddColor(n), p = it.hasPhoto && photo(it.id);
+    return `<div class="slot"><${p?'img src="'+p+'"':'div'} class="ph" style="border-color:${bg}">${p?'':esc(it.name.slice(0,2))}${p?'':'</div>'}
+      <div class="dd" style="color:${n<=3?bg:'#5D4037'}">${ddLabel(n)}</div></div>`; };
+  $('shelf').innerHTML = `<div class="tit">실온 ${data.length}</div>` + bays.map((b, bi) => {
+    let h = b.map(slot).join('');
+    if(bi === BAYS-1 && more > 0) h += `<div class="slot more"><div class="ph">+${more}</div><div class="dd">더보기</div></div>`;
+    if(!data.length && bi === 1) h = '<div class="empty">라면·과자·<br>파스타 등</div>';
+    return `<div class="bay">${h}</div>`;
+  }).join('');
+}
+
 function toggleDoor(c){
   open[c] = !open[c];
   document.querySelector(`.door.${c}`).classList.toggle('open', open[c]);
@@ -406,7 +461,7 @@ function renderSummary(){
 }
 
 function renderAll(){
-  layout(); renderFridge(); renderSummary();
+  layout(); renderFridge(); renderShelf(); renderSummary();
   if($('list').classList.contains('on')) renderList();
 }
 
@@ -428,11 +483,14 @@ function segSet(el, v){ el.querySelectorAll('button').forEach(x=>x.classList.tog
 /* ═════════ 식품 편집 ═════════ */
 let ed = null;  // {id?, name, compartment, expiry, qty, memo, photo}
 const QUICK = [['+3일',()=>addDays(3)],['+7일',()=>addDays(7)],['+14일',()=>addDays(14)],
-               ['+1달',()=>addMonths(1)],['+3달',()=>addMonths(3)],['+6달',()=>addMonths(6)]];
+               ['+1달',()=>addMonths(1)],['+3달',()=>addMonths(3)],['+6달',()=>addMonths(6)],['+1년',()=>addMonths(12)]];
 $('edQuick').innerHTML = QUICK.map((q,i)=>`<button class="chip" data-i="${i}">${q[0]}</button>`).join('');
-$('edQuick').onclick = e => { const i=e.target.dataset.i; if(i==null) return; ed.expiry=toStr(QUICK[i][1]()); $('edDate').value=ed.expiry; renderEdDday(); };
-$('edDate').onchange = e => { if(e.target.value){ ed.expiry=e.target.value; renderEdDday(); } };
-segBind($('edComp'), v => ed.compartment = v);
+$('edQuick').onclick = e => { const i=e.target.dataset.i; if(i==null) return; ed.expiry=toStr(QUICK[i][1]()); ed.dateTouched=true; $('edDate').value=ed.expiry; renderEdDday(); };
+$('edDate').onchange = e => { if(e.target.value){ ed.expiry=e.target.value; ed.dateTouched=true; renderEdDday(); } };
+segBind($('edComp'), v => {
+  if(!ed.id && !ed.dateTouched){ ed.expiry = toStr(fromCode(S.defExp[v])); $('edDate').value = ed.expiry; renderEdDday(); }
+  ed.compartment = v;
+});
 $('edBuy').onchange = e => ed.purchased = e.target.value || '';
 $('edPrice').oninput = e => {           // 숫자만 + 천 단위 콤마
   const n = e.target.value.replace(/[^0-9]/g,'').slice(0,9);
@@ -445,7 +503,7 @@ const shortDate = s => { const d=parse(s); return `${d.getFullYear()%100}.${pad(
 function openEditor(id, comp){
   const it = id && items.find(i=>i.id===id);
   ed = it ? {...it, photo: it.hasPhoto ? photo(it.id) : null}
-          : {name:'', compartment:comp||'fridge', expiry:toStr(addDays(comp==='freezer'?30:7)), qty:1, memo:'', photo:null,
+          : {name:'', compartment:comp||'fridge', expiry:toStr(fromCode(S.defExp[comp||'fridge'])), qty:1, memo:'', photo:null,
              purchased:toStr(today0()), price:null};
   $('edTitle').textContent = it ? '식품 수정' : '식품 넣기';
   $('edName').value = ed.name; $('edMemo').value = ed.memo || '';
@@ -519,10 +577,14 @@ async function onPhoto(input, mode){
 /* ═════════ 전체 목록 ═════════ */
 let listFilter = 'all';
 segBind($('listFilter'), v => { listFilter=v; renderList(); });
-function openList(){ renderList(); openSheet('list'); }
+function openList(f){
+  if(typeof f === 'string'){ listFilter = f; segSet($('listFilter'), f); }
+  renderList(); openSheet('list');
+}
 function renderList(){
   const data = items.filter(i=>listFilter==='all'||i.compartment===listFilter).sort((a,b)=>a.expiry.localeCompare(b.expiry));
-  $('listTitle').textContent = `전체 목록 (${items.length})`;
+  $('listTitle').textContent = listFilter==='all' ? `전체 목록 (${items.length})` : `${LABEL[listFilter]} (${data.length})`;
+  $('listAdd').textContent = `＋ ${LABEL[listFilter==='all'?'fridge':listFilter]}에 넣기`;
   const sum = data.reduce((a,i)=>a+(i.price||0),0);
   const lost = data.filter(i=>dday(i.expiry)<0).reduce((a,i)=>a+(i.price||0),0);
   const head = sum ? `<div class="help" style="margin:0 2px 10px;font-size:13px">합계 <b style="color:var(--text)">${won(sum)}</b>${lost?` · <span style="color:#C62828">기한 지남 ${won(lost)}</span>`:''}</div>` : '';
@@ -540,6 +602,12 @@ function renderList(){
 const DAY_OPTS = [7,5,3,2,1,0];
 function openSettings(){ renderSettings(); openSheet('settings'); }
 function renderSettings(){
+  $('stDef').innerHTML = ['fridge','freezer','pantry'].map(c => `
+    <div style="display:flex;align-items:center;gap:8px;margin:6px 0">
+      <b style="width:44px;font-size:13px;color:#37474F">${({fridge:'냉장',freezer:'냉동',pantry:'실온'})[c]}</b>
+      <div class="chips" style="margin:0;gap:4px;flex:1">${PERIODS.map(([k,l]) =>
+        `<button class="chip ${S.defExp[c]===k?'on':''}" style="padding:4px 7px;font-size:11.5px" onclick="setDef('${c}','${k}')">${l}</button>`).join('')}</div>
+    </div>`).join('');
   $('stDays').innerHTML = DAY_OPTS.map(d=>`<button class="chip ${S.alertDays.includes(d)?'on':''}" onclick="toggleDay(${d})">${d===0?'당일':d+'일 전'}</button>`).join('');
   const h = S.hour; $('stHour').textContent = `${h<12?'오전':'오후'} ${h%12===0?12:h%12}시`;
   const fp = S.hasFridgePhoto ? photo('fridge') : null;
@@ -548,6 +616,7 @@ function renderSettings(){
   $('stSplitWrap').style.display = fp ? '' : 'none';
   $('stSplit').textContent = Math.round(S.split*100)+'%';
 }
+function setDef(c, k){ S.defExp[c] = k; persist(); renderSettings(); }
 function toggleDay(d){
   S.alertDays = S.alertDays.includes(d) ? S.alertDays.filter(x=>x!==d) : [...S.alertDays, d].sort((a,b)=>b-a);
   persist(); renderSettings();
@@ -607,6 +676,7 @@ window.onAndroidBack = () => {
 window.onAppResume = () => renderAll();   // 날짜 바뀌었을 수 있으니 D-day 갱신
 
 window.addEventListener('resize', () => layout());
+window.addEventListener('load', () => { layout(); setTimeout(layout, 300); });
 
 /* 웹 버전: 백그라운드 알림이 안 되므로 "앱을 열 때" 하루 한 번 임박 식품 알려주기 */
 function launchAlert(force){
@@ -618,7 +688,7 @@ function launchAlert(force){
   if(!list.length){ if(force) toast('오늘 알릴 식품이 없어요'); return; }
   const txt = list.slice(0,6).map(x => `${x.i.name} (${x.n<0?'기한 지남':x.n===0?'오늘까지':x.n+'일 남음'})`).join('\n')
             + (list.length > 6 ? `\n외 ${list.length-6}개` : '');
-  confirmDlg('유통기한 확인하세요', txt, '목록 보기').then(ok => ok && openList());
+  confirmDlg('유통기한 확인하세요', txt, '목록 보기').then(ok => ok && openList('all'));
 }
 function updateBadge(){   // 홈 화면 아이콘 숫자 (지원 기기만)
   const n = items.filter(i => dday(i.expiry) <= 3).length;
